@@ -1,0 +1,86 @@
+# eBay Customer Interaction Automation – Default Configuration
+# Copy this file, rename it to config.local.yaml, and set your values.
+# Never commit API credentials to version control.
+
+# ---------------------------------------------------------------------------
+# Store settings
+# ---------------------------------------------------------------------------
+store:
+  id: "default"
+  name: "My eBay Store"
+  ebay_username: ""          # Your eBay seller username
+  marketplace: "EBAY_US"
+
+# ---------------------------------------------------------------------------
+# eBay API credentials
+# Set these via environment variables for security:
+#   EBAY_CLIENT_ID, EBAY_CLIENT_SECRET
+# ---------------------------------------------------------------------------
+ebay_api:
+  client_id: ""              # or set EBAY_CLIENT_ID env var
+  client_secret: ""          # or set EBAY_CLIENT_SECRET env var
+  sandbox: false             # true = use eBay sandbox environment
+  marketplace_id: "EBAY_US"
+
+# ---------------------------------------------------------------------------
+# Database
+# ---------------------------------------------------------------------------
+database:
+  path: "ebay_automation.db"
+  echo_sql: false
+
+# ---------------------------------------------------------------------------
+# Messaging settings
+# ---------------------------------------------------------------------------
+messaging:
+  auto_respond: true
+  max_auto_responses_per_run: 50
+
+# ---------------------------------------------------------------------------
+# Order notification settings
+# ---------------------------------------------------------------------------
+orders:
+  notify_on_ship: true
+  notify_on_delivery: true
+  transit_update_days: 3     # Send a transit update every N days
+
+# ---------------------------------------------------------------------------
+# Review / feedback settings
+# ---------------------------------------------------------------------------
+reviews:
+  request_delay_days: 3      # Days after delivery before sending review request
+  auto_respond_feedback: true
+  negative_alert_enabled: true
+
+# ---------------------------------------------------------------------------
+# Customer service settings
+# ---------------------------------------------------------------------------
+customer_service:
+  auto_acknowledge_returns: true
+  auto_notify_refunds: true
+  escalation_threshold_days: 5   # Escalate unresolved returns after N days
+
+# ---------------------------------------------------------------------------
+# Scheduler (all intervals in minutes; times in HH:MM UTC)
+# ---------------------------------------------------------------------------
+schedule:
+  message_check_interval_minutes: 15
+  order_check_interval_minutes: 30
+  review_request_time: "09:00"
+  customer_service_interval_minutes: 20
+  analytics_report_time: "18:00"
+
+# ---------------------------------------------------------------------------
+# Custom message templates (optional – overrides built-in defaults)
+# Supported categories: shipping, return, product_info, order_status,
+#                       feedback, general
+# ---------------------------------------------------------------------------
+templates: {}
+# Example:
+# templates:
+#   shipping:
+#     body: |
+#       Hi {{ buyer_id }},
+#       Your order {{ order_id }} shipped via {{ carrier }}!
+#       Tracking: {{ tracking_number }}
+#       Thanks, {{ store_name }}
