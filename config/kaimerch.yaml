@@ -1,0 +1,138 @@
+# kaimerch Store – eBay Customer Interaction Automation Configuration
+# Store: https://www.ebay.com/str/kaimerch
+
+# ---------------------------------------------------------------------------
+# Store identity
+# ---------------------------------------------------------------------------
+store:
+  id: "kaimerch"
+  name: "kaimerch"
+  ebay_username: "kaimerch"
+  marketplace: "EBAY_US"
+
+# ---------------------------------------------------------------------------
+# eBay API credentials (set via environment variables)
+# ---------------------------------------------------------------------------
+ebay_api:
+  client_id: ""              # set EBAY_CLIENT_ID
+  client_secret: ""          # set EBAY_CLIENT_SECRET
+  sandbox: false
+  marketplace_id: "EBAY_US"
+
+# ---------------------------------------------------------------------------
+# Database (store-specific DB file)
+# ---------------------------------------------------------------------------
+database:
+  path: "kaimerch_automation.db"
+  echo_sql: false
+
+# ---------------------------------------------------------------------------
+# Messaging
+# ---------------------------------------------------------------------------
+messaging:
+  auto_respond: true
+  max_auto_responses_per_run: 100
+
+# ---------------------------------------------------------------------------
+# Orders
+# ---------------------------------------------------------------------------
+orders:
+  notify_on_ship: true
+  notify_on_delivery: true
+  transit_update_days: 3
+
+# ---------------------------------------------------------------------------
+# Reviews
+# ---------------------------------------------------------------------------
+reviews:
+  request_delay_days: 3
+  auto_respond_feedback: true
+  negative_alert_enabled: true
+
+# ---------------------------------------------------------------------------
+# Customer service
+# ---------------------------------------------------------------------------
+customer_service:
+  auto_acknowledge_returns: true
+  auto_notify_refunds: true
+  escalation_threshold_days: 5
+
+# ---------------------------------------------------------------------------
+# Scheduler
+# ---------------------------------------------------------------------------
+schedule:
+  message_check_interval_minutes: 10
+  order_check_interval_minutes: 20
+  review_request_time: "09:00"
+  customer_service_interval_minutes: 15
+  analytics_report_time: "18:00"
+
+# ---------------------------------------------------------------------------
+# kaimerch custom message templates
+# SEO-focused, brand-consistent messaging tailored to the kaimerch store.
+# ---------------------------------------------------------------------------
+templates:
+  shipping:
+    body: |
+      Hi {{ buyer_id }},
+
+      Great news — your order ({{ order_id }}) has shipped! 🎉
+
+      📦 Item: {{ item_title }}
+      🚚 Carrier: {{ carrier }}
+      🔢 Tracking #: {{ tracking_number }}
+      {% if tracking_url %}🔗 Track your package: {{ tracking_url }}
+      {% endif %}{% if estimated_delivery %}📅 Estimated delivery: {{ estimated_delivery }}
+      {% endif %}
+      Questions? Just reply — we respond within 24 hours.
+
+      Thank you for shopping with kaimerch!
+      — The kaimerch Team
+
+  return:
+    body: |
+      Hi {{ buyer_id }},
+
+      We received your return request for order {{ order_id }}
+      ({{ item_title }}).
+
+      Return reason: {{ return_reason }}
+      Refund amount: {{ refund_amount }}
+      Current status: {{ status }}
+
+      We'll review your request within 1–2 business days.
+      You'll receive an update as soon as we process it.
+
+      Thank you for your patience and for shopping with kaimerch!
+      — The kaimerch Team
+
+  feedback:
+    body: |
+      Hi {{ buyer_id }},
+
+      We hope you're enjoying your purchase of {{ item_title }}
+      (order {{ order_id }})! 😊
+
+      Your experience matters to us. If you're happy with your order,
+      we'd be grateful if you could leave us feedback on eBay — it
+      helps other buyers find us and keeps our small team motivated!
+
+      If anything wasn't perfect, please reply before leaving feedback
+      and give us the chance to make it right. 🙏
+
+      Thank you so much for supporting kaimerch!
+      — The kaimerch Team
+
+  general:
+    body: |
+      Hi {{ buyer_id }},
+
+      Thank you for reaching out to kaimerch!
+
+      We've received your message and will get back to you within
+      1 business day (usually much sooner).
+
+      In the meantime, feel free to check our store policies and
+      FAQ on our eBay store page: https://www.ebay.com/str/kaimerch
+
+      — The kaimerch Team
